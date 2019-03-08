@@ -52,18 +52,21 @@ def api_text():
     # d = pickle.load(dataFile)
     # filename = 'finalized_model_rbf.sav'
     # loaded_model = pickle.load(open(filename, 'rb'))
-    # API_KEY='AIzaSyCZspzx7MtubROWWX9NK-USz91ZeIpojoE'
-    # service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=API_KEY)
     # t= create_tfidf_training_data(d, inputsen)
     # lol = loaded_model.predict_proba(t)
     # humorscore = int(abs(lol[0][1]*100))
+
     sarcasmscore = sarcasm_test().use_neural_network(inputsen)
+
+    API_KEY='AIzaSyCZspzx7MtubROWWX9NK-USz91ZeIpojoE'
+    service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=API_KEY)
     analyze_request = {
         'comment': { 'text': inputsen },
         'requestedAttributes': {'TOXICITY': {}}
     }
     response = service.comments().analyze(body=analyze_request).execute()
     insultscore = int(abs(response['attributeScores']['TOXICITY']['summaryScore']['value']*100))
+
     results = {
      'Input': inputsen,
      'Sarcasm': sarcasmscore,
