@@ -1,8 +1,8 @@
 import flask
 from flask import request, jsonify
 import requests
-from google.cloud import storage
-import google.protobuf
+# from google.cloud import storage
+# import google.protobuf
 from googleapiclient import discovery
 from createFeatureSets import CreateFeatureSet
 import tensorflow as tf

@@ -6,3 +6,4 @@ sklearn==0.0
 tensorflow==1.9.0
 Werkzeug==0.14.1
 flask
+requests
