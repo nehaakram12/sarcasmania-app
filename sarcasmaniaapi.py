@@ -20,13 +20,14 @@ app.logger.setLevel(logging.ERROR)
 def init():
     global d,loaded_model,service
     # load the pre-trained Keras model
-    d = []
-    dataFile = open('output1.txt', 'rb')
-    d = pickle.load(dataFile)
-    filename = 'finalized_model_rbf.sav'
-    loaded_model = pickle.load(open(filename, 'rb'))
-    API_KEY='AIzaSyCZspzx7MtubROWWX9NK-USz91ZeIpojoE'
-    service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=API_KEY)
+    # d = []
+    # dataFile = open('output1.txt', 'rb')
+    # d = pickle.load(dataFile)
+    # filename = 'finalized_model_rbf.sav'
+    # loaded_model = pickle.load(open(filename, 'rb'))
+    # API_KEY='AIzaSyCZspzx7MtubROWWX9NK-USz91ZeIpojoE'
+    # service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=API_KEY)
+    print('lalalalla initializer')
 
 
 @app.route('/', methods=['GET'])
