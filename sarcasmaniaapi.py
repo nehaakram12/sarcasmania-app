@@ -153,8 +153,7 @@ class sarcasm_test:
 
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
-            self.saver.restore(sess, os.path.join(os.getcwd(),
-                                                  'model/sarcasm_model'))
+            self.saver.restore(sess, 'model/sarcasm_model')
             features = CreateFeatureSet().extract_feature_of_sentence(input_data)
             pred = prediction.eval(feed_dict={self.x: [
                 features]})
