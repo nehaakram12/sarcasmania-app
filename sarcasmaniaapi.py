@@ -81,6 +81,8 @@ class sarcasm_test:
     # trainAndTest.py, so that the input features can be run through the neural
     #  network.
     def __init__(self):
+        tf.reset_default_graph()
+
         number_nodes_HL1 = 100
         number_nodes_HL2 = 100
         number_nodes_HL3 = 100
