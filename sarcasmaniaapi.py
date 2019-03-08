@@ -48,19 +48,16 @@ def api_text():
         return "Error: No text field provided. Please specify text."
     print("Input Line: ", inputsen)
     print("Please wait while the Sarcasm Data-Model loads!...")
-    d = []
-    dataFile = open('output1.txt', 'rb')
-    d = pickle.load(dataFile)
-    filename = 'finalized_model_rbf.sav'
-    loaded_model = pickle.load(open(filename, 'rb'))
-    API_KEY='AIzaSyCZspzx7MtubROWWX9NK-USz91ZeIpojoE'
-    service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=API_KEY)
+    # dataFile = open('output1.txt', 'rb')
+    # d = pickle.load(dataFile)
+    # filename = 'finalized_model_rbf.sav'
+    # loaded_model = pickle.load(open(filename, 'rb'))
+    # API_KEY='AIzaSyCZspzx7MtubROWWX9NK-USz91ZeIpojoE'
+    # service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=API_KEY)
+    # t= create_tfidf_training_data(d, inputsen)
+    # lol = loaded_model.predict_proba(t)
+    # humorscore = int(abs(lol[0][1]*100))
     sarcasmscore = sarcasm_test().use_neural_network(inputsen)
-    t= create_tfidf_training_data(d, inputsen)
-    # result = loaded_model.predict(t)
-    lol = loaded_model.predict_proba(t)
-    humorscore = int(abs(lol[0][1]*100))
-
     analyze_request = {
         'comment': { 'text': inputsen },
         'requestedAttributes': {'TOXICITY': {}}
@@ -70,7 +67,7 @@ def api_text():
     results = {
      'Input': inputsen,
      'Sarcasm': sarcasmscore,
-     'Humor': humorscore,
+     'Humor': 33,
      'Insult': insultscore,
     }
     return jsonify(results)
