@@ -120,7 +120,11 @@ class sarcasm_test:
                                  'layer_weights': tf.Variable(
                                      tf.random_normal([number_nodes_HL3, 2])),
                                  'layer_biases': tf.Variable(tf.random_normal([2])), }
-        self.saver = tf.train.Saver()
+        variable_list = tf.global_variables()
+        print(variable_list)
+        # variable_list.remove('HiddenLayer1')
+        # self.saver = tf.train.Saver(var_list=variable_list)
+        self.saver = tf.train.Saver(var_list=variable_list)
         # self.saver.save(sess, 'my-model', global_step=step)
 
     # Nothing changes in this method as well.
@@ -154,6 +158,8 @@ class sarcasm_test:
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
             self.saver.restore(sess, 'model/sarcasm_model')
+            variable_list = tf.global_variables()
+            print(variable_list)
             features = CreateFeatureSet().extract_feature_of_sentence(input_data)
             pred = prediction.eval(feed_dict={self.x: [
                 features]})
