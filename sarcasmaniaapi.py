@@ -1,5 +1,7 @@
 import flask
 from flask import request, jsonify
+import sys
+import logging
 from googleapiclient import discovery
 from createFeatureSets import CreateFeatureSet
 import tensorflow as tf
@@ -11,6 +13,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
 
 def init():
     global d,loaded_model,service
