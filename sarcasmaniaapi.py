@@ -1,8 +1,5 @@
 import flask
 from flask import request, jsonify
-import requests
-# from google.cloud import storage
-# import google.protobuf
 from googleapiclient import discovery
 from createFeatureSets import CreateFeatureSet
 import tensorflow as tf
@@ -15,33 +12,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-def download_blob(bucket_name, source_blob_name, destination_file_name):
-    """Downloads a blob from the bucket."""
-    # Explicitly use service account credentials by specifying the private key file.
-    storage_client = storage.Client.from_service_account_json(
-        'sarcasmaniacloudkey.json')
-
-    # Make an authenticated API request
-    buckets = list(storage_client.list_buckets())
-    print(buckets)
-
-    # storage_client = storage.Client(project="sarcasmania",credentials="OAUTH2_CREDS")
-    bucket = storage_client.get_bucket(bucket_name)
-    blob = bucket.get_blob(source_blob_name)
-
-    blob.download_to_filename(destination_file_name)
-
-    print('Blob {} downloaded to {}.'.format(
-        source_blob_name,
-        destination_file_name))
-
 def init():
     global d,loaded_model,service
     # load the pre-trained Keras model
     d = []
     dataFile = open('output1.txt', 'rb')
-    # download_blob('staging.sarcasmania.appspot.com', 'output1.txt', 'myblob.txt')
-    # dataFile = open('myblob.txt', 'rb')
     d = pickle.load(dataFile)
     filename = 'finalized_model_rbf.sav'
     loaded_model = pickle.load(open(filename, 'rb'))
@@ -51,21 +26,6 @@ def init():
 
 @app.route('/', methods=['GET'])
 def home():
-    location = requests.get('https://ipinfo.io/')
-    location_data = location.json()
-    city = location_data['city']
-    country = location_data['country']
-    weather = requests.get('http://api.openweathermap.org/data/2.5/weather?q='+city+','+country+'&appid=d583544f1369c5dfb4016d7d3ef47e0e&units=imperial')
-
-    weather_data = weather.json()
-    temperature = weather_data['main']['temp']
-
-    response = "Current Temperature (F) in "
-    response += str(city)
-    response += " is: "
-    response += str(temperature)
-
-    return (response)
     return '''<h1>S.A.R.C.A.S.M.A.N.I.A</h1>
 <p>Can you BEEEEEEEE more sarcastic??!!.</p><p>A prototype API for sarcasmania.</p>'''
 
