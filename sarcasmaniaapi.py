@@ -47,6 +47,13 @@ def api_text():
         return "Error: No text field provided. Please specify text."
     print("Input Line: ", inputsen)
     print("Please wait while the Sarcasm Data-Model loads!...")
+    d = []
+    dataFile = open('output1.txt', 'rb')
+    d = pickle.load(dataFile)
+    filename = 'finalized_model_rbf.sav'
+    loaded_model = pickle.load(open(filename, 'rb'))
+    API_KEY='AIzaSyCZspzx7MtubROWWX9NK-USz91ZeIpojoE'
+    service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=API_KEY)
     sarcasmscore = sarcasm_test().use_neural_network(inputsen)
     t= create_tfidf_training_data(d, inputsen)
     # result = loaded_model.predict(t)
