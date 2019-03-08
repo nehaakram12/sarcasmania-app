@@ -1,3 +1,4 @@
+textblob
 google-api-python-client==1.7.5
 gunicorn==19.9.0
 protobuf==3.6.0
