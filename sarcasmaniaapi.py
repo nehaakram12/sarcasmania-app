@@ -11,23 +11,15 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+#initializing flask api
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
-
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
 
 def init():
     global d,loaded_model,service
-    # load the pre-trained Keras model
-    # d = []
-    # dataFile = open('output1.txt', 'rb')
-    # d = pickle.load(dataFile)
-    # filename = 'finalized_model_rbf.sav'
-    # loaded_model = pickle.load(open(filename, 'rb'))
-    # API_KEY='AIzaSyCZspzx7MtubROWWX9NK-USz91ZeIpojoE'
-    # service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=API_KEY)
-    print('lalalalla initializer')
+    print('Model loading')
 
 
 @app.route('/', methods=['GET'])
@@ -42,22 +34,18 @@ def page_not_found(e):
 @app.route('/api/sarcasmania', methods=['GET'])
 def api_text():
     inputsen=""
+    #taking sentence from url params
     if 'text' in request.args:
         inputsen = (request.args['text'])
     else:
         return "Error: No text field provided. Please specify text."
     print("Input Line: ", inputsen)
     print("Please wait while the Sarcasm Data-Model loads!...")
-    # dataFile = open('output1.txt', 'rb')
-    # d = pickle.load(dataFile)
-    # filename = 'finalized_model_rbf.sav'
-    # loaded_model = pickle.load(open(filename, 'rb'))
-    # t= create_tfidf_training_data(d, inputsen)
-    # lol = loaded_model.predict_proba(t)
-    # humorscore = int(abs(lol[0][1]*100))
 
+    #sarcasm predicition
     sarcasmscore = sarcasm_test().use_neural_network(inputsen)
 
+    #insult prediction
     API_KEY='AIzaSyCZspzx7MtubROWWX9NK-USz91ZeIpojoE'
     service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=API_KEY)
     analyze_request = {
@@ -70,7 +58,6 @@ def api_text():
     results = {
      'Input': inputsen,
      'Sarcasm': sarcasmscore,
-     'Humor': 33,
      'Insult': insultscore,
     }
     return jsonify(results)
