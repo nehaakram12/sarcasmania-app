@@ -1,7 +1,7 @@
 textblob
 google-api-python-client==1.7.5
 gunicorn==19.9.0
-protobuf==3.6.0
+protobuf==3.18.3
 scikit-learn==0.20.2
 sklearn==0.0
 tensorflow==1.9.0
